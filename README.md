@@ -50,7 +50,7 @@ npm start
 
 Access at `http://localhost:3000`
 
-Default password: `syed_techteaM`
+Default password: `ITACHI-UCHIA`
 
 ## License
 
