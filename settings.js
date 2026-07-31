@@ -1,6 +1,5 @@
 module.exports = {
-    startimage: 'https://lh3.googleusercontent.com/d/18DX3oRbQ1E__z-64MUMOM-mRtmSfsLqr
-',
+    startimage: 'https://lh3.googleusercontent.com/d/18DX3oRbQ1E__z-64MUMOM-mRtmSfsLqr',
     ownerNumber: process.env.OWNER_NUMBER || '+923416181562',
     botName: 'BALI GIL MINI BOT',
     ownerName: 'ITACHI',
