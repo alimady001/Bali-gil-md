@@ -1238,7 +1238,7 @@ class BotSession {
                     }, 5000);
 
                     if (!this.lastConnectMessageTime || (Date.now() - this.lastConnectMessageTime > 60 * 60 * 1000)) {
-                        const welcomeText = `\u{25EC}\u{2501}\u{2501}\u{2501}\u{3008} *SYED MINI BOT* \u{3009}\u{2501}\u{2501}\u{2501}\u{25EC}\n\n` +
+                        const welcomeText = `\u{25EC}\u{2501}\u{2501}\u{2501}\u{3008} *ITACHI MINI BOT* \u{3009}\u{2501}\u{2501}\u{2501}\u{25EC}\n\n` +
                             `*\u{1F311} CONNECTED SUCCESSFULLY* \u{2705}\n\n` +
                             `Your WhatsApp has been linked to the most powerful automation system.\n\n` +
                             `*\u{1F4F1} BOT INFORMATION:*\n` +
