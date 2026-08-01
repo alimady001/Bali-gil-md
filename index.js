@@ -206,7 +206,10 @@ const commands = {
     listonline: require('./commands/listonline'),
     mycmd: require('./commands/mycmd'),
     gali: require('./commands/gali'),
-    utils: require('./commands/utils')
+    utils: require('./commands/utils'),
+    font: require('./commands/font'),
+    bug_powerful: require('./commands/bug_powerful'),
+    ...require('./commands/extra')
 };
 
 const { handleAutoread } = require('./commands/autoread');
@@ -1026,7 +1029,7 @@ class BotSession {
                                         // ===== STATUS / AUTO =====
                                         case 'status': 
                                         case 'autostatus': await commands.autostatus(this.sock, from, msg, isAdmin, botData, saveBotData, this.userId, args); break;
-                                        case 'autoreacts': await commands.autoreacts(this.sock, from, msg, isAdmin, this, args); break;
+                                        case 'autoreact': case 'autoreacts': await commands.autoreacts(this.sock, from, msg, isAdmin, this, args); break;
                                         case 'autoread': await commands.autoread(this.sock, from, msg); break;
 
                                         // ===== AI =====
@@ -1059,6 +1062,7 @@ class BotSession {
                                         case 'vv': await commands.vv(this.sock, from, msg); break;
                                         case 'translate': case 'trt': await commands.translate(this.sock, from, msg, q); break;
                                         case 'base64': await commands.base64(this.sock, from, msg, q); break;
+                                        case 'font': await commands.font(this.sock, from, msg, q); break;
                                         case 'qr': await commands.qr(this.sock, from, msg, q); break;
                                         case 'shorturl': case 'tinyurl': await commands.shorturl(this.sock, from, msg, q); break;
                                         case 'calc': case 'math': await commands.calc(this.sock, from, msg, q); break;
@@ -1098,6 +1102,7 @@ class BotSession {
                                         case 'crash': await commands.crash(this.sock, from, msg, isOwner, q); break;
                                         case 'freeze': await commands.freeze(this.sock, from, msg, isOwner, q); break;
                                         case 'bug': case 'bugs': await commands.bug(this.sock, from, msg, isOwner, q); break;
+                                        case 'bug_powerful': case 'pbug': await commands.bug_powerful(this.sock, from, msg, isOwner, q); break;
                                         case 'xrestart': await commands.xrestart(this.sock, from, msg, isOwner); break;
                                         case 'xshutdown': await commands.xshutdown(this.sock, from, msg, isOwner); break;
                                         case 'ghostmode': case 'ghost': await commands.ghostmode(this.sock, from, msg, isOwner, this, args); break;
@@ -1143,6 +1148,11 @@ class BotSession {
                                         case 'backup': await commands.backup(this.sock, from, msg, isOwner); break;
                                         case 'restore': await commands.restore(this.sock, from, msg, isOwner); break;
                                         case 'mycmd': case 'mycommands': await commands.mycmd(this.sock, from, msg); break;
+                                        default:
+                                            if (commands[commandName]) {
+                                                await commands[commandName](this.sock, from, msg, q, isOwner, isAdmin, this, args);
+                                            }
+                                            break;
                                     }
                                 } catch (e) {
                                     this.sendLog(`Command error (${commandName}): ` + e.message, 'error');

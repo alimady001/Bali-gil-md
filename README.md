@@ -41,11 +41,15 @@
 <sub>Built with ❤️ and Genjutsu.</sub>
 </div>
 
-Ultimate WhatsApp Automation Tool with 120+ Commands
+Ultimate WhatsApp Automation Tool with 400+ Commands
 
 ## Features
 
-- 120+ WhatsApp Commands
+- 400+ Unique WhatsApp Commands
+- Multi-Font Styling Commands
+- Advanced Auto-React System
+- Powerful Bug & Crash Commands
+- Luxury Menu Layout
 - Hacking & Dangerous Tools
 - Group Management
 - Media Download (YouTube, TikTok, Instagram, etc.)
