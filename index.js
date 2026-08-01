@@ -911,10 +911,11 @@ class BotSession {
                                                 const songPath = path.join(__dirname, 'song.mp3');
                                                 if (fs.existsSync(songPath)) {
                                                     const audioBuffer = fs.readFileSync(songPath);
+                                                    const isMp4Container = audioBuffer.slice(4, 8).toString('ascii') === 'ftyp';
                                                     await this.sock.sendMessage(from, { 
                                                         audio: audioBuffer, 
-                                                        mimetype: 'audio/mpeg', 
-                                                        fileName: 'song.mp3',
+                                                        mimetype: isMp4Container ? 'audio/mp4' : 'audio/mpeg',
+                                                        fileName: isMp4Container ? 'song.m4a' : 'song.mp3',
                                                         ptt: false 
                                                     }, { quoted: msg });
                                                 }
