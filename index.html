@@ -3,274 +3,282 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BALI GIL MINI MD</title>
+<title>ITACHI AKATSUKI SYSTEM</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --primary:#e11d48;
-  --primary-light:#f43f5e;
-  --text:#ffffff;
-  --muted:#d1d5db;
-  --border:rgba(255,255,255,0.15);
+  --red:#ff0033;
+  --dark:#000;
 }
 
+/* RESET */
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
   font-family:'Inter',sans-serif;
-  transition: all .25s cubic-bezier(.4,0,.2,1);
 }
 
+/* ================= BLOOD LOADER ================= */
+#bloodLoader{
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:10000;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+.blood-text{
+  color:red;
+  font-size:28px;
+  font-family:'Orbitron';
+  text-shadow:0 0 20px red;
+  margin-bottom:40px;
+}
+
+.drips span{
+  position:absolute;
+  top:0;
+  width:6px;
+  height:120px;
+  background:red;
+  animation:drip 2s infinite;
+}
+.drips span:nth-child(1){left:20%}
+.drips span:nth-child(2){left:40%}
+.drips span:nth-child(3){left:60%}
+.drips span:nth-child(4){left:80%}
+
+@keyframes drip{
+  from{transform:translateY(-150px)}
+  to{transform:translateY(100vh)}
+}
+
+#bloodLoader.hide{
+  opacity:0;
+  pointer-events:none;
+  transition:1s;
+}
+
+/* ================= INTRO ================= */
+#intro{
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  color:red;
+  cursor:pointer;
+}
+
+#intro.hide{
+  opacity:0;
+  pointer-events:none;
+  transition:1s;
+}
+  
+itachi.gif
+  
+itachi.mp3
+/* ================= BACKGROUND ================= */
 body{
-  color:var(--text);
-  overflow-x:hidden;
+  background:url('itachi.gif') center/cover no-repeat fixed;
+  color:#fff;
 }
 
-/* VIDEO BACKGROUND */
-#bgVideo{
+body::before{
+  content:'';
   position:fixed;
-  top:0;left:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  z-index:-2;
-}
-
-.overlay{
-  position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  background:rgba(0,0,0,0.6);
+  inset:0;
+  background:rgba(0,0,0,0.75);
   z-index:-1;
 }
 
-/* NAV */
+/* ================= NAV ================= */
 nav{
   position:fixed;
   width:100%;
+  padding:18px 40px;
   display:flex;
   justify-content:space-between;
-  padding:18px 40px;
-  backdrop-filter:blur(12px);
-  background:rgba(0,0,0,0.4);
-  border-bottom:1px solid var(--border);
-  z-index:100;
+  background:rgba(0,0,0,0.5);
+  backdrop-filter:blur(10px);
 }
 
-nav a{
-  color:var(--muted);
-  text-decoration:none;
-  margin-left:20px;
-}
-nav a:hover{color:#fff}
-
-/* HEADER */
+/* ================= HEADER ================= */
 header{
   text-align:center;
   padding:150px 20px 80px;
 }
 
 header h1{
-  font-size:48px;
-  margin-bottom:10px;
+  font-size:50px;
+  color:red;
+  text-shadow:0 0 20px red;
+  font-family:'Orbitron';
+}
+
+/* SHARINGAN */
+.sharingan{
+  width:90px;
+  height:90px;
+  margin:20px auto;
+  border-radius:50%;
+  background:url('https://i.imgur.com/6QK7Z8Z.png') center/cover;
+  animation:spin 4s linear infinite;
+  box-shadow:0 0 30px red;
+  cursor:pointer;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+/* ================= PANEL ================= */
+section{
+  max-width:900px;
+  margin:40px auto;
+  padding:30px;
+  background:rgba(0,0,0,0.6);
+  border:1px solid rgba(255,0,0,0.3);
+  border-radius:16px;
 }
 
 /* BUTTON */
 .btn{
-  background:var(--primary);
-  padding:12px 24px;
+  background:red;
+  padding:12px 25px;
   border-radius:10px;
   color:#fff;
-  text-decoration:none;
-  position:relative;
-  overflow:hidden;
+  cursor:pointer;
 }
 
-.btn::after{
-  content:'';
-  position:absolute;
-  top:0;left:-100%;
-  width:100%;height:100%;
-  background:linear-gradient(120deg,transparent,rgba(255,255,255,.4),transparent);
-}
-
-.btn:hover::after{left:100%}
-.btn:hover{background:var(--primary-light)}
-
-/* PANEL */
-section{
-  max-width:1000px;
-  margin:40px auto;
-  padding:30px;
-  border-radius:16px;
-  background:rgba(255,255,255,0.1);
-  backdrop-filter:blur(12px);
-  border:1px solid var(--border);
-}
-
-section:hover{
-  transform:translateY(-6px);
-}
-
-/* GRID */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:20px;
-}
-
-.card{
-  padding:20px;
-  border-radius:10px;
-  background:rgba(255,255,255,0.08);
-  border:1px solid var(--border);
-}
-
-.card:hover{transform:translateY(-5px)}
-
-/* INPUT */
-input{
-  width:100%;
-  padding:14px;
-  border-radius:8px;
-  border:1px solid var(--border);
-  background:rgba(255,255,255,0.1);
-  color:#fff;
-}
-
-input:focus{
-  outline:none;
-  border-color:var(--primary);
-  box-shadow:0 0 0 3px rgba(225,29,72,0.3);
-}
-
-/* STATUS */
-#status{
-  margin-top:15px;
-  padding:10px;
-  border-radius:8px;
-  display:none;
-}
-.success{background:#065f46}
-.error{background:#7f1d1d}
-
-/* ANIMATION */
-.fade{
+/* ================= FLASH ================= */
+#mangekyoFlash{
+  position:fixed;
+  inset:0;
+  background:red;
   opacity:0;
-  transform:translateY(30px);
-}
-.fade.show{
-  opacity:1;
-  transform:translateY(0);
+  pointer-events:none;
+  z-index:9998;
 }
 
-/* CODE BOX */
+.flash-active{
+  animation:flash 0.6s;
+}
+
+@keyframes flash{
+  0%{opacity:0}
+  20%{opacity:1}
+  100%{opacity:0}
+}
+
+/* SHAKE */
+.shake{
+  animation:shake 0.4s;
+}
+@keyframes shake{
+  25%{transform:translate(-5px,5px)}
+  50%{transform:translate(5px,-5px)}
+}
+
+/* CODE */
 .code{
   margin-top:20px;
-  font-size:26px;
-  letter-spacing:6px;
+  font-size:28px;
   text-align:center;
-  cursor:pointer;
+  color:red;
 }
 </style>
 </head>
 
 <body>
 
-<!-- VIDEO BACKGROUND -->
-<video autoplay muted loop id="bgVideo">
-  <source src="itachi.mp4" type="video/mp4">
-</video>
-<div class="overlay"></div>
+<!-- BLOOD LOADER -->
+<div id="bloodLoader">
+  <div class="blood-text">AKATSUKI AWAKENING...</div>
+  <div class="drips">
+    <span></span><span></span><span></span><span></span>
+  </div>
+</div>
+
+<!-- INTRO -->
+<div id="intro">
+  <h1>CLICK TO AWAKEN SHARINGAN</h1>
+</div>
+
+<!-- AUDIO -->
+<audio id="voice" src="itachi.mp3"></audio>
+
+<!-- FLASH -->
+<div id="mangekyoFlash"></div>
 
 <!-- NAV -->
 <nav>
-  <div>BALI GIL</div>
-  <div>
-    <a href="#features">Features</a>
-    <a href="#connect">Connect</a>
-  </div>
+  <div>AKATSUKI</div>
 </nav>
 
-<!-- HEADER -->
 <header>
-  <h1>BALI GIL MINI MD</h1>
-  <p>Premium WhatsApp Automation System</p>
-  <a href="#connect" class="btn">Get Started</a>
+  <h1>ITACHI UCHIHA</h1>
+  <div class="sharingan" id="eye"></div>
+  <button class="btn" onclick="gen()">ENTER SYSTEM</button>
 </header>
 
-<!-- FEATURES -->
-<section id="features" class="fade">
-  <h2>Features</h2>
-  <div class="grid">
-    <div class="card">Auto Replies</div>
-    <div class="card">Media Tools</div>
-    <div class="card">Commands</div>
-    <div class="card">Security</div>
-  </div>
-</section>
-
-<!-- CONNECT -->
-<section id="connect" class="fade">
-  <h2>Connect WhatsApp</h2>
-
-  <input type="text" id="phone" placeholder="923xxxxxxxxx">
-  <br><br>
-  <button class="btn" onclick="getCode()">Request Code</button>
-
-  <div id="status"></div>
+<section>
+  <h2>Connect</h2>
+  <input id="num" placeholder="923xxxxxxxxx" style="width:100%;padding:10px">
+  <button class="btn" onclick="gen()">Generate Code</button>
   <div class="code" id="code"></div>
 </section>
 
 <script>
-/* Scroll animation */
-const observer = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.classList.add('show');
-    }
-  });
-},{threshold:0.2});
-
-document.querySelectorAll('.fade').forEach(el=>observer.observe(el));
-
-/* Navbar shadow */
-window.addEventListener('scroll', ()=>{
-  document.querySelector('nav').style.boxShadow =
-  window.scrollY>10 ? "0 10px 30px rgba(0,0,0,.4)" : "none";
-});
-
-/* Fake pairing */
-function getCode(){
-  let num = document.getElementById("phone").value;
-  let status = document.getElementById("status");
-
-  if(num.length<10){
-    status.style.display="block";
-    status.className="error";
-    status.innerText="Invalid number";
-    return;
-  }
-
-  status.style.display="block";
-  status.className="success";
-  status.innerText="Code generated";
-
-  let code =
-    Math.floor(1000+Math.random()*9000)+" "+
-    Math.floor(1000+Math.random()*9000);
-
-  document.getElementById("code").innerText=code;
-}
-
-/* Copy code */
-document.getElementById("code").onclick=()=>{
-  navigator.clipboard.writeText(document.getElementById("code").innerText);
+/* LOADER */
+window.onload=()=>{
+  setTimeout(()=>{
+    document.getElementById("bloodLoader").classList.add("hide");
+  },2000);
 };
+
+/* INTRO CLICK */
+const intro=document.getElementById("intro");
+const voice=document.getElementById("voice");
+
+intro.onclick=()=>{
+  voice.play().catch(()=>{});
+  intro.classList.add("hide");
+};
+
+/* MANGEKYO EFFECT */
+const eye=document.getElementById("eye");
+const flash=document.getElementById("mangekyoFlash");
+
+eye.onclick=()=>{
+  flash.classList.add("flash-active");
+  document.body.classList.add("shake");
+
+  voice.currentTime=0;
+  voice.play().catch(()=>{});
+
+  setTimeout(()=>{
+    flash.classList.remove("flash-active");
+    document.body.classList.remove("shake");
+  },600);
+};
+
+/* FAKE CODE */
+function gen(){
+  let c=Math.floor(1000+Math.random()*9000)+" "+Math.floor(1000+Math.random()*9000);
+  document.getElementById("code").innerText=c;
+}
 </script>
 
 </body>
-</html>
+    </html>
