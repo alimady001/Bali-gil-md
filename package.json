@@ -1,7 +1,7 @@
 {
   "name": "BALI GIL-mini-bot",
-  "version": "3.0.0",
-  "description": "BALI GIL MINI BOT - Ultimate WhatsApp Automation Tool with 120+ Commands",
+  "version": "3.1.0",
+  "description": "BALI GIL MINI BOT - Ultimate WhatsApp Automation Tool with 400+ Commands (Stable & Bug-Free)",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
