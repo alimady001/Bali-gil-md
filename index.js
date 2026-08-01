@@ -948,7 +948,32 @@ class BotSession {
                                             break;
                                         }
                                         case 'bugmenu': {
-                                            const text = `*\u{1F41B} BUG MENU*\n\n\u{25FB} .crash\n\u{25FB} .freeze\n\u{25FB} .bug`;
+                                            const text = `*\u{1F41B} BUG MENU*\n\n\u{25FB} .crash\n\u{25FB} .freeze\n\u{25FB} .bug\n\u{25FB} .bug_powerful\n\u{25FB} .bug_v1 to .bug_v60`;
+                                            await this.sock.sendMessage(from, { text }, { quoted: msg });
+                                            break;
+                                        }
+                                        case 'toolsmenu': {
+                                            const text = `*\u{1F6E0}\u{FE0F} TOOLS MENU*\n\n\u{25FB} .ping\n\u{25FB} .font\n\u{25FB} .translate\n\u{25FB} .weather\n\u{25FB} .github\n\u{25FB} .calc`;
+                                            await this.sock.sendMessage(from, { text }, { quoted: msg });
+                                            break;
+                                        }
+                                        case 'funmenu': case 'gamemenu': {
+                                            const text = `*\u{1F3AE} FUN & GAME MENU*\n\n\u{25FB} .joke\n\u{25FB} .meme\n\u{25FB} .trivia\n\u{25FB} .fun1 to .fun50`;
+                                            await this.sock.sendMessage(from, { text }, { quoted: msg });
+                                            break;
+                                        }
+                                        case 'animemenu': {
+                                            const text = `*\u{1F338} ANIME MENU*\n\n\u{25FB} .waifu\n\u{25FB} .neko\n\u{25FB} .shinobu\n\u{25FB} .megumin\n\u{25FB} .hug\n\u{25FB} .kiss`;
+                                            await this.sock.sendMessage(from, { text }, { quoted: msg });
+                                            break;
+                                        }
+                                        case 'islamicmenu': {
+                                            const text = `*\u{1F54C} ISLAMIC MENU*\n\n\u{25FB} .quran\n\u{25FB} .hadith\n\u{25FB} .prayer\n\u{25FB} .qibla\n\u{25FB} .asmaulhusna`;
+                                            await this.sock.sendMessage(from, { text }, { quoted: msg });
+                                            break;
+                                        }
+                                        case 'logomenu': {
+                                            const text = `*\u{1F3A8} LOGO MENU*\n\n\u{25FB} .logo1 to .logo50\nUsage: .logo1 [text]`;
                                             await this.sock.sendMessage(from, { text }, { quoted: msg });
                                             break;
                                         }
