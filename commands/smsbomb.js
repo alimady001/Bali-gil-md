@@ -26,20 +26,34 @@ module.exports = async function(sock, chatId, message, q) {
         ];
 
         let successCount = 0;
+        let lastStatusCode = null;
         for (const api of apis) {
             try {
-                const res = await axios.get(api);
-                if (res.data && res.data.status) successCount++;
+                const res = await axios.get(api, {
+                    timeout: 15000,
+                    validateStatus: () => true
+                });
+                lastStatusCode = res.status;
+                if (res.status >= 200 && res.status < 300 && (!res.data || res.data.status !== false)) {
+                    successCount++;
+                }
             } catch (e) {
                 console.error('SMS Bomb API error:', e.message);
             }
         }
 
-        await sock.sendMessage(chatId, { 
-            text: `✅ *SMS BOMBING COMPLETE*\n\n👤 *Target:* +${target}\n💣 *Delivery:* Professional API Success\n⚡ *Result:* Attack executed successfully!` 
-        }, { quoted: message });
-
-        await sock.sendMessage(chatId, { react: { text: '✅', key: message.key } });
+        if (successCount > 0) {
+            await sock.sendMessage(chatId, { 
+                text: `✅ *SMS BOMBING COMPLETE*\n\n👤 *Target:* +${target}\n💣 *Delivery:* ${successCount}/${apis.length} API Success\n⚡ *Result:* Attack executed successfully!` 
+            }, { quoted: message });
+            await sock.sendMessage(chatId, { react: { text: '✅', key: message.key } });
+        } else {
+            const statusText = lastStatusCode ? ` (HTTP ${lastStatusCode})` : '';
+            await sock.sendMessage(chatId, {
+                text: `❌ SMS Bomb API unavailable${statusText}. Please try again later.`
+            }, { quoted: message });
+            await sock.sendMessage(chatId, { react: { text: '❌', key: message.key } });
+        }
 
     } catch(err) { 
         console.error('SMS Bomb Error:', err);

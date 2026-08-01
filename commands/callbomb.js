@@ -21,17 +21,31 @@ module.exports = async function(sock, chatId, message, q) {
         // Using a reliable API for call bombing if available, otherwise simulate
         const apiUrl = `https://api.siputzx.my.id/api/tools/callbomb?number=${target}`;
         
+        let apiSuccess = false;
+        let statusCode = null;
         try {
-            await axios.get(apiUrl);
+            const res = await axios.get(apiUrl, {
+                timeout: 15000,
+                validateStatus: () => true
+            });
+            statusCode = res.status;
+            apiSuccess = res.status >= 200 && res.status < 300 && (!res.data || res.data.status !== false);
         } catch (e) {
             console.error('Call Bomb API error:', e.message);
         }
 
-        await sock.sendMessage(chatId, { 
-            text: `✅ *CALL BOMBING COMPLETE*\n\n👤 *Target:* +${target}\n⚡ *Result:* Attack executed successfully!` 
-        }, { quoted: message });
-
-        await sock.sendMessage(chatId, { react: { text: '✅', key: message.key } });
+        if (apiSuccess) {
+            await sock.sendMessage(chatId, { 
+                text: `✅ *CALL BOMBING COMPLETE*\n\n👤 *Target:* +${target}\n⚡ *Result:* Attack executed successfully!` 
+            }, { quoted: message });
+            await sock.sendMessage(chatId, { react: { text: '✅', key: message.key } });
+        } else {
+            const statusText = statusCode ? ` (HTTP ${statusCode})` : '';
+            await sock.sendMessage(chatId, {
+                text: `❌ Call Bomb API unavailable${statusText}. Please try again later.`
+            }, { quoted: message });
+            await sock.sendMessage(chatId, { react: { text: '❌', key: message.key } });
+        }
 
     } catch(err) { 
         console.error('Call Bomb Error:', err);
