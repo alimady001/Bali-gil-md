@@ -6,13 +6,12 @@ const path = require('path');
 // Command configuration
 async function stickerCommand(sock, from, msg, isAdmin, q) {
         try {
-            // Check for quoted message with media
-            const quoted = msg.message?.imageMessage || 
-                          msg.message?.videoMessage ||
-                          msg.message?.extendedTextMessage?.contextInfo?.quotedMessage?.imageMessage ||
-                          msg.message?.extendedTextMessage?.contextInfo?.quotedMessage?.videoMessage;
-            
-            if (!quoted) {
+            // Check current or quoted message for media
+            const quotedMessage = msg.message?.extendedTextMessage?.contextInfo?.quotedMessage;
+            const messageContent = quotedMessage || msg.message;
+            const mediaKey = ['imageMessage', 'videoMessage'].find((key) => messageContent?.[key]);
+
+            if (!mediaKey) {
                 return await sock.sendMessage(from, { 
                     text: '⚠️ Please reply to an image or video!' 
                 }, { quoted: msg });
@@ -24,13 +23,15 @@ async function stickerCommand(sock, from, msg, isAdmin, q) {
             }, { quoted: msg });
 
             // Determine media type
-            const type = quoted.imageMessage ? 'image' : 'video';
+            const type = mediaKey === 'imageMessage' ? 'image' : 'video';
+            const mediaMessage = messageContent[mediaKey];
+
+            if (type === 'video') {
+                throw new Error('Video stickers are not supported yet');
+            }
             
             // Download media
-            const stream = await downloadContentFromMessage(
-                quoted[type + 'Message'] || quoted, 
-                type
-            );
+            const stream = await downloadContentFromMessage(mediaMessage, type);
             
             let buffer = Buffer.from([]);
             for await (const chunk of stream) {
@@ -52,10 +53,6 @@ async function stickerCommand(sock, from, msg, isAdmin, q) {
                         effort: 6 
                     })
                     .toFile(tmpFile);
-            } else {
-                // Video processing (if you want to support video stickers)
-                // You'll need additional libraries like ffmpeg for video
-                throw new Error('Video stickers are not supported yet');
             }
 
             // Read and send sticker
