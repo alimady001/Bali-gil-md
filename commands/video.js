@@ -51,19 +51,44 @@ async function getOkatsuVideoByUrl(youtubeUrl) {
     throw new Error('Okatsu failed');
 }
 
-async function videoCommand(sock, chatId, message) {
+// Additional fallback APIs
+async function getAlyaVideoByUrl(youtubeUrl) {
+    try {
+        const res = await axios.get(`https://api.alyachan.pro/api/ytmp4?url=${encodeURIComponent(youtubeUrl)}&apikey=G7I6X7`, AXIOS_DEFAULTS);
+        if (res?.data?.status && res?.data?.data?.url) {
+            return { download: res.data.data.url, title: res.data.data.title };
+        }
+        throw new Error('Alya failed');
+    } catch (e) {
+        throw e;
+    }
+}
+
+async function getVredenVideoByUrl(youtubeUrl) {
+    try {
+        const res = await axios.get(`https://api.vreden.my.id/api/ytmp4?url=${encodeURIComponent(youtubeUrl)}`, AXIOS_DEFAULTS);
+        if (res?.data?.status && res?.data?.result?.download?.url) {
+            return { download: res.data.result.download.url, title: res.data.result.metadata.title };
+        }
+        throw new Error('Vreden failed');
+    } catch (e) {
+        throw e;
+    }
+}
+
+async function videoCommand(sock, from, message) {
     try {
         // Loading reactions
         const loadEmojis = ['📥', '⏳', '🎥'];
         for (const emoji of loadEmojis) {
-            await sock.sendMessage(chatId, { react: { text: emoji, key: message.key } });
+            await sock.sendMessage(from, { react: { text: emoji, key: message.key } });
         }
         const messageContent = message.message?.ephemeralMessage?.message || message.message?.viewOnceMessage?.message || message.message?.viewOnceMessageV2?.message || message.message;
         const text = (messageContent.conversation || messageContent.extendedTextMessage?.text || messageContent.imageMessage?.caption || messageContent.videoMessage?.caption || '').trim();
         const query = text.replace(/^\.video\s+/i, '').trim();
         
         if (!query || query.toLowerCase() === '.video') {
-            await sock.sendMessage(chatId, { text: 'Usage: .video <name or link>' }, { quoted: message });
+            await sock.sendMessage(from, { text: 'Usage: .video <name or link>' }, { quoted: message });
             return;
         }
 
@@ -77,7 +102,7 @@ async function videoCommand(sock, chatId, message) {
         } else {
             const { videos } = await yts(query);
             if (!videos || videos.length === 0) {
-                await sock.sendMessage(chatId, { text: 'No videos found!' }, { quoted: message });
+                await sock.sendMessage(from, { text: 'No videos found!' }, { quoted: message });
                 return;
             }
             videoUrl = videos[0].url;
@@ -85,7 +110,7 @@ async function videoCommand(sock, chatId, message) {
             videoThumbnail = videos[0].thumbnail;
         }
 
-        await sock.sendMessage(chatId, {
+        await sock.sendMessage(from, {
             image: { url: videoThumbnail || 'https://i.postimg.cc/y6GV9P3H/file-000000004c307206bc366893b817568c-(1).png' },
             caption: `🎥 Downloading: *${videoTitle}*`
         }, { quoted: message });
@@ -95,7 +120,9 @@ async function videoCommand(sock, chatId, message) {
         const apiMethods = [
             { name: 'EliteProTech', method: () => getEliteProTechVideoByUrl(videoUrl) },
             { name: 'Yupra', method: () => getYupraVideoByUrl(videoUrl) },
-            { name: 'Okatsu', method: () => getOkatsuVideoByUrl(videoUrl) }
+            { name: 'Okatsu', method: () => getOkatsuVideoByUrl(videoUrl) },
+            { name: 'Alya', method: () => getAlyaVideoByUrl(videoUrl) },
+            { name: 'Vreden', method: () => getVredenVideoByUrl(videoUrl) }
         ];
         
         for (const apiMethod of apiMethods) {
@@ -112,16 +139,16 @@ async function videoCommand(sock, chatId, message) {
         
         if (!downloadSuccess) throw new Error('All download sources failed.');
 
-        await sock.sendMessage(chatId, {
+        await sock.sendMessage(from, {
             video: { url: videoData.download },
             mimetype: 'video/mp4',
             fileName: `${videoData.title.replace(/[^\w\s-]/g, '')}.mp4`,
-            caption: `*${videoData.title}*\n\n> *Downloaded by OLD-STUDIO*`
+            caption: `*${videoData.title}*\n\n> *Downloaded by BALI-GIL*`
         }, { quoted: message });
 
     } catch (error) {
         console.error('Video error:', error);
-        await sock.sendMessage(chatId, { text: `❌ Error: ${error.message}` }, { quoted: message });
+        await sock.sendMessage(from, { text: `❌ Error: ${error.message}` }, { quoted: message });
     }
 }
 

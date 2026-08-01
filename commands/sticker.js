@@ -4,7 +4,7 @@ const fs = require('fs-extra');
 const path = require('path');
 
 // Command configuration
-async function stickerCommand(sock, chatId, msg, args) {
+async function stickerCommand(sock, from, msg, isAdmin, q) {
         try {
             // Check for quoted message with media
             const quoted = msg.message?.imageMessage || 
@@ -13,13 +13,13 @@ async function stickerCommand(sock, chatId, msg, args) {
                           msg.message?.extendedTextMessage?.contextInfo?.quotedMessage?.videoMessage;
             
             if (!quoted) {
-                return await sock.sendMessage(chatId, { 
+                return await sock.sendMessage(from, { 
                     text: '⚠️ Please reply to an image or video!' 
                 }, { quoted: msg });
             }
 
             // Send processing message
-            await sock.sendMessage(chatId, { 
+            await sock.sendMessage(from, { 
                 text: '✨ Converting to sticker...' 
             }, { quoted: msg });
 
@@ -60,7 +60,7 @@ async function stickerCommand(sock, chatId, msg, args) {
 
             // Read and send sticker
             const stickerBuffer = await fs.readFile(tmpFile);
-            await sock.sendMessage(chatId, { 
+            await sock.sendMessage(from, { 
                 sticker: stickerBuffer 
             }, { quoted: msg });
 
@@ -69,7 +69,7 @@ async function stickerCommand(sock, chatId, msg, args) {
 
         } catch (error) {
             console.error('Sticker Error:', error);
-            await sock.sendMessage(chatId, { 
+            await sock.sendMessage(from, { 
                 text: `❌ Error: ${error.message}` 
             }, { quoted: msg });
         }
