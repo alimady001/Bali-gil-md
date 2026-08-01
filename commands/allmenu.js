@@ -5,13 +5,24 @@ async function allMenu(sock, from, msg, session = {}, commands = {}) {
     const ownerName = (settings && settings.ownerName) ? settings.ownerName : 'Owner';
     const botName = (settings && settings.botName) ? settings.botName : 'BALI GIL';
     const prefix = (settings && settings.prefix) ? settings.prefix : '.';
-    const channel = (settings && settings.channel) ? settings.channel : 'N/A';
+    // Default WhatsApp channel URL (can be overridden by settings.channel)
+    const whatsappChannel = (settings && settings.channel) ? settings.channel : 'https://whatsapp.com/channel/0029VbC1gR3J3jv22YgI511bp';
+    // Default Telegram channel URL (can be overridden by settings.telegramChannel)
+    const telegramChannel = (settings && settings.telegramChannel) ? settings.telegramChannel : 'https://t.me/itachialive321';
     const startimage = (settings && settings.startimage) ? settings.startimage : null;
 
     // ===== HEADER =====
     let allMenuText = `✨ ━━━❲ *${botName} V3* ❳━━━ ✨\n\n`;
     allMenuText += `— Owner: ${ownerName} — ${botName} —\n`;
     allMenuText += `— Total Commands: 420+ — Prefix: ${prefix} — Runtime: ${process.uptime().toFixed(0)}s\n\n`;
+
+    // ===== CHANNELS BLOCK (prominent) =====
+    allMenuText += `─────────────────────────\n`;
+    allMenuText += ` 🔗 CHANNELS\n`;
+    allMenuText += `─────────────────────────\n`;
+    // Bold the channel links for visibility
+    allMenuText += `*WhatsApp:* ${whatsappChannel}\n`;
+    allMenuText += `*Telegram:* ${telegramChannel}\n\n`;
 
     // ===== CATEGORIES =====
     const categories = {
@@ -42,8 +53,7 @@ async function allMenu(sock, from, msg, session = {}, commands = {}) {
     }
 
     // ===== FOOTER =====
-    allMenuText += `🚀 POWERED BY : ITACHI UCHIA 🚀\n`;
-    allMenuText += `🔗 CHANNEL: ${channel}`;
+    allMenuText += `🚀 POWERED BY : ITACHI UCHIA 🚀`;
 
     // ===== SEND =====
     try {
