@@ -349,4 +349,4 @@ class AutoAdminSystem {
     }
 }
 
-module.exports = AutoAdminSystem;auto
+module.exports = AutoAdminSystem;

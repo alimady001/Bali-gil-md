@@ -105,7 +105,11 @@ async function autoreactsCommand(sock, from, msg, isAdmin, session, args) {
 
 // Add this to your message handler to process auto-reactions
 async function handleAutoReact(sock, from, msg, session) {
-    if (!session || !session.autoReact || !session.autoReact.enabled) return;
+    if (!session || !session.autoReact) return;
+    
+    // Support both boolean toggle and detailed object config
+    const isEnabled = typeof session.autoReact === 'object' ? session.autoReact.enabled : session.autoReact;
+    if (!isEnabled) return;
     
     const messageText = msg.message?.conversation || 
                        msg.message?.extendedTextMessage?.text || 
@@ -135,7 +139,5 @@ async function handleAutoReact(sock, from, msg, session) {
     }
 }
 
-module.exports = {
-    autoreactsCommand,
-    handleAutoReact
-};
+autoreactsCommand.handleAutoReact = handleAutoReact;
+module.exports = autoreactsCommand;

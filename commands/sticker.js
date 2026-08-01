@@ -4,14 +4,7 @@ const fs = require('fs-extra');
 const path = require('path');
 
 // Command configuration
-module.exports = {
-    name: 'sticker', // Command name
-    aliases: ['s', 'sticker', 'st'], // Alternative command names
-    description: 'Convert image/video to sticker',
-    category: 'media',
-    usage: '.sticker (reply to image/video)',
-
-    execute: async function(sock, chatId, msg, args) {
+async function stickerCommand(sock, chatId, msg, args) {
         try {
             // Check for quoted message with media
             const quoted = msg.message?.imageMessage || 
@@ -80,5 +73,6 @@ module.exports = {
                 text: `❌ Error: ${error.message}` 
             }, { quoted: msg });
         }
-    }
-};
+}
+
+module.exports = stickerCommand;

@@ -348,8 +348,6 @@ async function handleAntiLink(sock, from, msg, botData, saveBotData) {
     }
 }
 
-module.exports = {
-    antilinkCommand,
-    handleAntiLink,
-    linkPatterns
-};
+antilinkCommand.handleAntiLink = handleAntiLink;
+antilinkCommand.linkPatterns = linkPatterns;
+module.exports = antilinkCommand;

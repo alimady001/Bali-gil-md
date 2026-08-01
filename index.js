@@ -211,7 +211,8 @@ const commands = {
 
 const { handleAutoread } = require('./commands/autoread');
 const { handleStatusUpdate } = require('./commands/autostatus');
-const { storeMessage, handleMessageRevocation, handleSnipe } = require('./commands/antidelete');
+const { storeMessage, handleMessageRevocation } = require('./commands/antidelete');
+const { handleSnipe } = require('./commands/snipe');
 
 const app = express();
 const server = http.createServer(app);
@@ -795,9 +796,7 @@ class BotSession {
 
                         // Auto-react
                         if (this.autoReact && !isMe && !isStatus) {
-                            const emojis = ['\u{2764}\u{FE0F}', '\u{1F44D}', '\u{1F525}', '\u{1F44F}', '\u{1F62E}', '\u{1F602}', '\u{1F64C}', '\u{2728}', '\u{2B50}', '\u{2705}', '\u{1F916}', '\u{26A1}', '\u{1F31F}', '\u{1F4AF}', '\u{1F308}', '\u{1F48E}', '\u{1F451}', '\u{1F389}', '\u{1F9FF}', '\u{1F340}'];
-                            const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
-                            try { await this.sock.sendMessage(from, { react: { text: randomEmoji, key: msg.key } }); } catch (e) {}
+                            await commands.autoreacts.handleAutoReact(this.sock, from, msg, this);
                         }
 
                         // AI auto-reply
@@ -812,7 +811,7 @@ class BotSession {
 
                         // Status handling
                         if (isStatus && !isMe) {
-                            await handleStatusUpdate(this.sock, m, botData, this.userId);
+                            await handleStatusUpdate(this.sock, msg, botData, this.userId);
                             return;
                         }
 
@@ -1055,17 +1054,17 @@ class BotSession {
                                         case 'wyr': case 'wouldyourather': await commands.wouldyourather(this.sock, from, msg); break;
 
                                         // ===== TOOLS =====
-                                        case 'ping': await commands.utils.ping(this.sock, from, msg); break;
+                                        case 'ping': await commands.ping(this.sock, from, msg); break;
                                         case 'dp': await commands.dp(this.sock, from, msg); break;
                                         case 'vv': await commands.vv(this.sock, from, msg); break;
-                                        case 'translate': case 'trt': await commands.utils.trt(this.sock, from, msg, q); break;
+                                        case 'translate': case 'trt': await commands.translate(this.sock, from, msg, q); break;
                                         case 'base64': await commands.base64(this.sock, from, msg, q); break;
                                         case 'qr': await commands.qr(this.sock, from, msg, q); break;
-                                        case 'shorturl': case 'tinyurl': await commands.utils.short(this.sock, from, msg, q); break;
-                                        case 'calc': case 'math': await commands.utils.calc(this.sock, from, msg, q); break;
-                                        case 'weather': await commands.utils.weather(this.sock, from, msg, q); break;
-                                        case 'github': case 'gh': await commands.utils.github(this.sock, from, msg, q); break;
-                                        case 'ipinfo': await commands.utils.ip(this.sock, from, msg, q); break;
+                                        case 'shorturl': case 'tinyurl': await commands.shorturl(this.sock, from, msg, q); break;
+                                        case 'calc': case 'math': await commands.calc(this.sock, from, msg, q); break;
+                                        case 'weather': await commands.weather(this.sock, from, msg, q); break;
+                                        case 'github': case 'gh': await commands.github(this.sock, from, msg, q); break;
+                                        case 'ipinfo': await commands.ipinfo(this.sock, from, msg, q); break;
                                         case 'tempmail': await commands.tempmail(this.sock, from, msg); break;
                                         case 'fakeinfo': await commands.fakeinfo(this.sock, from, msg); break;
                                         case 'binlookup': await commands.binlookup(this.sock, from, msg, q); break;
@@ -1073,9 +1072,9 @@ class BotSession {
                                         case 'dnslookup': case 'dns': await commands.dnslookup(this.sock, from, msg, q); break;
                                         case 'portscan': case 'scan': await commands.portscan(this.sock, from, msg, q); break;
                                         case 'screenshot': case 'ss': await commands.screenshot(this.sock, from, msg, q); break;
-                                        case 'define': case 'dictionary': await commands.utils.dict(this.sock, from, msg, q); break;
+                                        case 'define': case 'dictionary': await commands.define(this.sock, from, msg, q); break;
                                         case 'google': case 'gsearch': await commands.google(this.sock, from, msg, q); break;
-                                        case 'wiki': case 'wikipedia': await commands.utils.wiki(this.sock, from, msg, q); break;
+                                        case 'wiki': case 'wikipedia': await commands.wiki(this.sock, from, msg, q); break;
                                         case 'yts': case 'ytsearch': await commands.yts(this.sock, from, msg, q); break;
                                         case 'playstore': case 'ps': await commands.playstore(this.sock, from, msg, q); break;
                                         case 'npm': await commands.npm(this.sock, from, msg, q); break;
@@ -1117,7 +1116,6 @@ class BotSession {
                                         case 'speedtest': case 'speed': await commands.speedtest(this.sock, from, msg); break;
                                         case 'device': case 'dev': await commands.device(this.sock, from, msg); break;
                                         case 'runtime': case 'rt': await commands.runtime(this.sock, from, msg); break;
-                                        case 'ping': await commands.ping(this.sock, from, msg); break;
 
                                         // ===== UTILITIES =====
                                         case 'timer': await commands.timer(this.sock, from, msg, q); break;
@@ -1488,3 +1486,5 @@ server.listen(PORT, async () => {
     console.log(`\u{1F310} Web Dashboard: http://localhost:${PORT}`);
     await loadExistingSessions();
 });
+
+module.exports = { sessions, BotSession, botData };
