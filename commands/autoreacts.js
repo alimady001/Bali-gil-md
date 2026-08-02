@@ -15,13 +15,13 @@ async function autoreactsCommand(sock, from, msg, isAdmin, session, args) {
     if (!session.autoReact) {
         session.autoReact = {
             enabled: false,
-            emojis: ['✅', '❤️', '👏', '🔥', '🎉'],
+            emojis: ['✅','❤️','👏','🔥','🎉'💕'💯'😡'🤣'😂'😝'😜'🤨'😉'🙈'🚫'🇵🇰'😗'😶‍🌫️'🫡'],
             reactions: {}
         };
     }
 
     const action = args[0]?.toLowerCase();
-    const reactionEmoji = args[1] || '❤️'; // Default emoji if not specified
+    const reactionEmoji = args[1] || '❤️'🔥'💕'💯'😡'🤣'😂'😝'😜'🤨'😉🙈'🚫'🇵🇰'😗'😶‍🌫️'🫡; // Default emoji if not specified
 
     if (action === 'on') {
         session.autoReact.enabled = true;
@@ -39,7 +39,7 @@ async function autoreactsCommand(sock, from, msg, isAdmin, session, args) {
     else if (action === 'set') {
         // Set specific emoji for a word/keyword
         const keyword = args[1]?.toLowerCase();
-        const emoji = args[2] || '❤️';
+        const emoji = args[2] || '❤️'🔥'💕'💯'😡'🤣'😂'😝'😜'🤨'😉🙈'🚫'🇵🇰'😗'😶‍🌫️'🫡;
         if (!keyword) {
             return await sock.sendMessage(from, { 
                 text: "❌ Usage: .autoreact set [keyword] [emoji]" 
@@ -83,7 +83,7 @@ async function autoreactsCommand(sock, from, msg, isAdmin, session, args) {
     }
     else if (action === 'status') {
         const status = session.autoReact.enabled ? '✅ Enabled' : '❌ Disabled';
-        const emoji = session.autoReact.defaultEmoji || '❤️';
+        const emoji = session.autoReact.defaultEmoji || '❤️'🔥'💕'💯'😡'🤣'😂'😝'😜'🤨'😉🙈'🚫'🇵🇰'😗'😶‍🌫️'🫡;
         const count = Object.keys(session.autoReact.reactions || {}).length;
         await sock.sendMessage(from, { 
             text: `📊 *Auto-React Status*\nStatus: ${status}\nDefault Emoji: ${emoji}\nCustom Reactions: ${count}` 
@@ -118,7 +118,7 @@ async function handleAutoReact(sock, from, msg, session) {
     
     if (!messageText) return;
 
-    let reaction = session.autoReact.defaultEmoji || '❤️';
+    let reaction = session.autoReact.defaultEmoji || '❤️'🔥'💕'💯'😡'🤣'😂'😝'😜'🤨'😉🙈'🚫'🇵🇰'😗'😶‍🌫️'🫡;
     
     // Check for custom reactions
     const reactions = session.autoReact.reactions || {};
