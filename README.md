@@ -1,7 +1,7 @@
 
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&height=230&color=0:6a0dad,100:ab47bc&text=BALI%20GIL&fontColor=ffffff&fontSize=85&fontAlignY=40&animation=twinkling&desc=Powered%20By%20ITACHI%20UCHIHA" alt="BALI GIL" />
+<img src="https://capsule-render.vercel.app/api?type=waving&height=230&color=0:6a0dad,100:ab47bc&text=BALI%20GIL&fontColor=ffffff&fontSize=85&fontAlignY=40&animation=twinkling&desc=Powered%20By%20I[...]" />
 
 <div style="
   margin-top: -60px;
@@ -97,6 +97,14 @@ npm start
 | OPENAI_API_KEY | OpenAI API key (optional) |
 | ADMIN_PASSWORD | Dashboard password |
 | PORT | Web dashboard port |
+| SUDO | (Optional) Comma/semicolon/newline separated list or JSON array of WhatsApp numbers to grant sudo privileges. Examples:
+
+- JSON array: SUDO='["+923110470403","+923416181562"]'
+- CSV: SUDO='+1234567890,+1987654321'
+
+The SUDO env is parsed defensively: it accepts JSON arrays or plain lists separated by commas/semicolons/newlines. Numbers are normalized (non-digits removed) and validated by length. Enable debug logging with SUDO_VERBOSE=1 or DEBUG_SUDO=true to see parsing logs.
+
+| BOT_OWNER | (Optional) Owner number — automatically included in SUDO checks when present. Examples: BOT_OWNER='+923110470403' |
 
 ## Command Categories
 
@@ -153,4 +161,3 @@ MIT
 ⭐ Star this repo if you like it!
 
 </div>
-
