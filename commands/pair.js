@@ -31,7 +31,7 @@ async function pairCommand(sock, from, msg, q) {
             const response = `\u{25EC}\u{2501}\u{2501}\u{2501}\u{3008} *BALI GIL PAIRING* \u{3009}\u{2501}\u{2501}\u{2501}\u{25EC}\n\n` +
                              `*\u{1F511} YOUR PAIRING CODE:* \`${code}\`\n\n` +
                              `_Enter this code in your WhatsApp Linked Devices section._\n\n` +
-                             `> © POWERED BY BALI GIL MINI BOT v4.0.1`;
+                             `> © POWERED BY BALI GIL MINI BOT`;
 
             await sock.sendMessage(from, { text: response }, { quoted: msg });
             
