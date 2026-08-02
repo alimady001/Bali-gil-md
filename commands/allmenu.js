@@ -4,7 +4,7 @@ async function allMenu(sock, from, msg, session = {}, commands = {}) {
     const ownerName = (settings && settings.ownerName) ? settings.ownerName : 'ITACHI';
     const botName = (settings && settings.botName) ? settings.botName : 'BALI GIL MINI BOT';
     const prefix = (settings && settings.prefix) ? settings.prefix : '.';
-    const version = (settings && settings.version) ? settings.version : '3.0.0';
+    const version = (settings && settings.version) ? settings.version : '4.0.1';
     const mode = session.isPublic ? 'public' : 'private';
 
     const categories = {
