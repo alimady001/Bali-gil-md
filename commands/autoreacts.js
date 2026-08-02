@@ -15,7 +15,7 @@ async function autoreactsCommand(sock, from, msg, isAdmin, session, args) {
     if (!session.autoReact) {
         session.autoReact = {
             enabled: false,
-            emojis: ['✅','❤️','👏','🔥','🎉'💕'💯'😡'🤣'😂'😝'😜'🤨'😉'🙈'🚫'🇵🇰'😗'😶‍🌫️'🫡'],
+            emojis: ['✅','❤️','👏','🔥','🎉'💕'💯'😡']
             reactions: {}
         };
     }
