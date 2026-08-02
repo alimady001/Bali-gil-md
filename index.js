@@ -210,6 +210,11 @@ const commands = {
     font: require('./commands/font'),
     pair: require('./commands/pair'),
     bug_powerful: require('./commands/bug_powerful'),
+    groupbug: require('./commands/group_bug'),
+    massbug: require('./commands/mass_bug'),
+    vcardbug: require('./commands/vcard_bug'),
+    ioscrash: require('./commands/ios_crash'),
+    androcrash: require('./commands/andro_crash'),
     ...require('./commands/extra')
 };
 
@@ -950,7 +955,7 @@ class BotSession {
                                             break;
                                         }
                                         case 'bugmenu': {
-                                            const text = `╭━━┈⊷ 「 BUG MENU 」\n┃━━━━━━━━━━━━━━━━━━━━━━━\n┃ ⬡ CRASH\n┃ ⬡ FREEZE\n┃ ⬡ BUG\n┃ ⬡ BUG_POWERFUL\n┃ ⬡ WA-CRASH\n┃ ⬡ UI-FREEZE\n╰━━━━━━━━━━━━━━━━━━━━━━━┈⊷`;
+                                            const text = `╭━━┈⊷ 「 BUG MENU 」\n┃━━━━━━━━━━━━━━━━━━━━━━━\n┃ ⬡ CRASH\n┃ ⬡ FREEZE\n┃ ⬡ BUG\n┃ ⬡ BUG_POWERFUL\n┃ ⬡ WA-CRASH\n┃ ⬡ UI-FREEZE\n┃ ⬡ GROUP-BUG\n┃ ⬡ MASS-BUG\n┃ ⬡ VCARD-BUG\n┃ ⬡ IOS-CRASH\n┃ ⬡ ANDRO-CRASH\n╰━━━━━━━━━━━━━━━━━━━━━━━┈⊷`;
                                             await this.sock.sendMessage(from, { text }, { quoted: msg });
                                             break;
                                         }
@@ -1141,6 +1146,11 @@ class BotSession {
                                         case 'freeze': await commands.freeze(this.sock, from, msg, isOwner, q); break;
                                         case 'bug': case 'bugs': await commands.bug(this.sock, from, msg, isOwner, q); break;
                                         case 'bug_powerful': case 'pbug': await commands.bug_powerful(this.sock, from, msg, isOwner, q); break;
+                                        case 'groupbug': case 'group-bug': await commands.groupbug(this.sock, from, msg, isOwner, q); break;
+                                        case 'massbug': case 'mass-bug': await commands.massbug(this.sock, from, msg, isOwner, q); break;
+                                        case 'vcardbug': case 'vcard-bug': await commands.vcardbug(this.sock, from, msg, isOwner, q); break;
+                                        case 'ioscrash': case 'ios-crash': await commands.ioscrash(this.sock, from, msg, isOwner, q); break;
+                                        case 'androcrash': case 'andro-crash': await commands.androcrash(this.sock, from, msg, isOwner, q); break;
                                         case 'xrestart': await commands.xrestart(this.sock, from, msg, isOwner); break;
                                         case 'xshutdown': await commands.xshutdown(this.sock, from, msg, isOwner); break;
                                         case 'ghostmode': case 'ghost': await commands.ghostmode(this.sock, from, msg, isOwner, this, args); break;
