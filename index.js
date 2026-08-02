@@ -208,6 +208,7 @@ const commands = {
     gali: require('./commands/gali'),
     utils: require('./commands/utils'),
     font: require('./commands/font'),
+    pair: require('./commands/pair'),
     bug_powerful: require('./commands/bug_powerful'),
     ...require('./commands/extra')
 };
@@ -954,10 +955,11 @@ class BotSession {
                                             break;
                                         }
                                         case 'toolsmenu': {
-                                            const text = `╭━━┈⊷ 「 TOOLS MENU 」\n┃━━━━━━━━━━━━━━━━━━━━━━━\n┃ ⬡ PING\n┃ ⬡ FONT\n┃ ⬡ TRANSLATE\n┃ ⬡ WEATHER\n┃ ⬡ GITHUB\n┃ ⬡ CALC\n┃ ⬡ IPINFO\n┃ ⬡ WIKI\n╰━━━━━━━━━━━━━━━━━━━━━━━┈⊷`;
+                                            const text = `╭━━┈⊷ 「 TOOLS MENU 」\n┃━━━━━━━━━━━━━━━━━━━━━━━\n┃ ⬡ PING\n┃ ⬡ PAIR\n┃ ⬡ FONT\n┃ ⬡ TRANSLATE\n┃ ⬡ WEATHER\n┃ ⬡ GITHUB\n┃ ⬡ CALC\n┃ ⬡ IPINFO\n┃ ⬡ WIKI\n╰━━━━━━━━━━━━━━━━━━━━━━━┈⊷`;
                                             await this.sock.sendMessage(from, { text }, { quoted: msg });
                                             break;
                                         }
+                                        case 'pair': await commands.pair(this.sock, from, msg, q); break;
                                         case 'funmenu': case 'gamemenu': {
                                             const text = `╭━━┈⊷ 「 FUN & GAME MENU 」\n┃━━━━━━━━━━━━━━━━━━━━━━━\n┃ ⬡ JOKE\n┃ ⬡ MEME\n┃ ⬡ TRIVIA\n┃ ⬡ TICTACTOE\n┃ ⬡ CHESS\n┃ ⬡ 8BALL\n╰━━━━━━━━━━━━━━━━━━━━━━━┈⊷`;
                                             await this.sock.sendMessage(from, { text }, { quoted: msg });
