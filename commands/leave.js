@@ -5,6 +5,7 @@ module.exports = async function(sock, chatId, msg, isAdmin) {
         await sock.sendMessage(chatId, { text: '🚪 Leaving group... Goodbye!' });
         await sock.groupLeave(chatId);
     } catch (e) {
-        await sock.sendMessage(chatId, { text: '❌ Error: ' + (e && e.message ? e.message : String(e)) }, { quoted: msg });
+        const errText = e && e.message ? e.message : String(e);
+        await sock.sendMessage(chatId, { text: '❌ Error: ' + errText }, { quoted: msg });
     }
 };
