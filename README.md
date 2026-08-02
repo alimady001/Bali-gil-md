@@ -1,7 +1,7 @@
 
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&height=230&color=0:6a0dad,100:ab47bc&text=BALI%20GIL&fontColor=ffffff&fontSize=85&fontAlignY=40&animation=twinkling&desc=Powered%20By%20I[...]
+<img src="https://capsule-render.vercel.app/api?type=waving&height=230&color=0:6a0dad,100:ab47bc&text=BALI%20GIL&fontColor=ffffff&fontSize=85&fontAlignY=40&animation=twinkling&desc=Powered%20By%20ITACHI%20UCHIHA" alt="BALI GIL" />
 
 <div style="
   margin-top: -60px;
@@ -28,14 +28,12 @@
 # 🌌 BALI GIL bot v4.0.1
 **"Even the strongest of opponents always has a weakness."**
 
-[![Status](https://img.shields.io/badge/Status-Active-brightgreen)](https://github.com/itachi-uchia34)
-[![Version](https://img.shields.io/badge/Version-3.1.0-blue)](https://github.com/itachi-uchia34/Bali-gil-md)
-[![Owner](https://img.shields.io/badge/Developer-Itachi%20Uchiha-red)](https://github.com/itachi-uchia34)
-[![Language](https://img.shields.io/badge/Language-JavaScript-orange)](https://github.com/itachi-uchia34)
+[![Status](https://img.shields.io/badge/status-Active-brightgreen?style=flat-square)](https://github.com/itachi-uchia34)
+[![Version](https://img.shields.io/badge/version-4.0.1-blue?style=flat-square)](https://github.com/itachi-uchia34/Bali-gil-md/releases/tag/v4.0.1)
+[![Owner](https://img.shields.io/badge/developer-Itachi%20Uchiha-red?style=flat-square)](https://github.com/itachi-uchia34)
+[![Language](https://img.shields.io/badge/language-JavaScript-orange?style=flat-square)](https://github.com/itachi-uchia34)
 
 ![BALI GIL BOT](https://lh3.googleusercontent.com/d/18DX3oRbQ1E__z-64MUMOM-mRtmSfsLqr)
-
-
 
 ---
 <div align="center">
@@ -44,7 +42,7 @@
 
 Ultimate WhatsApp Automation Tool with 400+ Commands
 
-## 📌 Version 4.0.1 - Stable Release (Bug Fixes & Improvements)
+## 📌 Version 4.0.1 - Stable Release (Bug Fixes & Improvements) — 2026-08-02
 
 ### ✨ What's New in v4.0.1:
 - 🔧 **Fixed Critical Command Issues** - All commands now work properly
@@ -118,7 +116,7 @@ Default password: `ITACHI-UCHIA`
 
 ## Changelog
 
-### v4.0.1 (Current)
+### v4.0.1 (Current) — 2026-08-02
 - Fixed critical command export format issues
 - Normalized parameter naming across all commands
 - Added fallback APIs for media downloads
