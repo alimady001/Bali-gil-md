@@ -3,34 +3,63 @@ const fs = require('fs');
 const path = require('path');
 
 const commandsDir = __dirname;
-const files = fs.readdirSync(commandsDir);
+const indexName = path.basename(__filename);
+
+// Acceptable extensions (add .ts if you compile/transpile)
+const fileExtRegex = /\.(js|cjs|mjs)$/i;
 
 const commands = {};
 
-// Load each .js file (except this index) and attach to commands object
-for (const file of files) {
-  if (!file.endsWith('.js') || file === 'index.js') continue;
-  const name = path.basename(file, '.js');
+// Load each JS file (except this index) and attach to commands object
+for (const file of fs.readdirSync(commandsDir)) {
+  if (!fileExtRegex.test(file) || file === indexName) continue;
+
+  const name = path.basename(file, path.extname(file));
+  const fullPath = path.join(commandsDir, file);
+
   try {
-    const mod = require(path.join(commandsDir, file));
-    // If the module exports a single function, attach it as the command name
-    // If the module exports an object, merge/attach appropriately.
+    // Require the module
+    let mod = require(fullPath);
+
+    // Support transpiled ES module default export
+    if (mod && typeof mod === 'object' && 'default' in mod) mod = mod.default;
+
+    // If module itself is a function -> command is that function
     if (typeof mod === 'function') {
       commands[name] = mod;
-    } else if (mod && typeof mod === 'object') {
-      // If module exposes a specific "handle<CommandName>Command" or "handleTranslateCommand",
-      // keep it available. Also set the module itself under its filename for explicit access.
-      commands[name] = mod;
-      // if module has a handle... function, also expose it under commands[name].handler for clarity
-      const handlerKeys = Object.keys(mod).filter(k => k.toLowerCase().includes('handle') || k.toLowerCase().includes('command'));
-      if (handlerKeys.length === 1) commands[name] = mod[handlerKeys[0]];
+      continue;
     }
+
+    // If module is an object, try to pick a sensible handler
+    if (mod && typeof mod === 'object') {
+      // Common handler property names in order of preference
+      const preferredHandlers = ['handler', 'handle', 'execute', 'run'];
+      const found = preferredHandlers.find(k => typeof mod[k] === 'function');
+
+      if (found) {
+        commands[name] = mod[found];
+        continue;
+      }
+
+      // If there's exactly one function exported on the object, use it
+      const fnKeys = Object.keys(mod).filter(k => typeof mod[k] === 'function');
+      if (fnKeys.length === 1) {
+        commands[name] = mod[fnKeys[0]];
+        continue;
+      }
+
+      // No single handler found — export the whole module object so callers can access sub-exports
+      commands[name] = mod;
+      continue;
+    }
+
+    // Fallback: not a function or object (unlikely) — export as-is
+    commands[name] = mod;
   } catch (err) {
-    // Do not crash on a single command load failure; report it so the operator can fix it.
-    console.error(`[commands/index] Failed loading command "${file}": ${err.message}`);
-    // leave a placeholder to fail fast if invoked
-    commands[name] = () => {
-      throw new Error(`Command module "${file}" failed to load. See server logs.`);
+    // Don't crash the whole app if one command fails — log and provide a failing placeholder
+    console.error(`[commands/index] Failed loading command "${file}" from ${fullPath}:`, err);
+    commands[name] = (..._args) => {
+      throw new Error(`Command module "${file}" failed to load. See server logs for full error: ${err && err.message ? err.message : String(err)}`);
     };
   }
 }
