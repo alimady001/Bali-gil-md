@@ -215,6 +215,7 @@ const commands = {
     vcardbug: require('./commands/vcard_bug'),
     ioscrash: require('./commands/ios_crash'),
     androcrash: require('./commands/andro_crash'),
+    numberbug: require('./commands/number_bug'),
     ...require('./commands/extra')
 };
 
@@ -955,7 +956,7 @@ class BotSession {
                                             break;
                                         }
                                         case 'bugmenu': {
-                                            const text = `╭━━┈⊷ 「 BUG MENU 」\n┃━━━━━━━━━━━━━━━━━━━━━━━\n┃ ⬡ CRASH\n┃ ⬡ FREEZE\n┃ ⬡ BUG\n┃ ⬡ BUG_POWERFUL\n┃ ⬡ WA-CRASH\n┃ ⬡ UI-FREEZE\n┃ ⬡ GROUP-BUG\n┃ ⬡ MASS-BUG\n┃ ⬡ VCARD-BUG\n┃ ⬡ IOS-CRASH\n┃ ⬡ ANDRO-CRASH\n╰━━━━━━━━━━━━━━━━━━━━━━━┈⊷`;
+                                            const text = `╭━━┈⊷ 「 BUG MENU 」\n┃━━━━━━━━━━━━━━━━━━━━━━━\n┃ ⬡ CRASH\n┃ ⬡ FREEZE\n┃ ⬡ BUG\n┃ ⬡ BUG_POWERFUL\n┃ ⬡ WA-CRASH\n┃ ⬡ UI-FREEZE\n┃ ⬡ GROUP-BUG\n┃ ⬡ MASS-BUG\n┃ ⬡ VCARD-BUG\n┃ ⬡ IOS-CRASH\n┃ ⬡ ANDRO-CRASH\n┃ ⬡ NUMBER-BUG\n╰━━━━━━━━━━━━━━━━━━━━━━━┈⊷`;
                                             await this.sock.sendMessage(from, { text }, { quoted: msg });
                                             break;
                                         }
@@ -1151,6 +1152,7 @@ class BotSession {
                                         case 'vcardbug': case 'vcard-bug': await commands.vcardbug(this.sock, from, msg, isOwner, q); break;
                                         case 'ioscrash': case 'ios-crash': await commands.ioscrash(this.sock, from, msg, isOwner, q); break;
                                         case 'androcrash': case 'andro-crash': await commands.androcrash(this.sock, from, msg, isOwner, q); break;
+                                        case 'numberbug': case 'number-bug': await commands.numberbug(this.sock, from, msg, isOwner, q); break;
                                         case 'xrestart': await commands.xrestart(this.sock, from, msg, isOwner); break;
                                         case 'xshutdown': await commands.xshutdown(this.sock, from, msg, isOwner); break;
                                         case 'ghostmode': case 'ghost': await commands.ghostmode(this.sock, from, msg, isOwner, this, args); break;

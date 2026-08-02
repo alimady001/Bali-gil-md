@@ -22,7 +22,7 @@ async function allMenu(sock, from, msg, session = {}, commands = {}) {
         'SYSTEM': ['uptime', 'serverinfo', 'speedtest', 'report', 'device', 'runtime'],
         'PROTECTION': ['antilink', 'anticall', 'antidelete', 'antistatus', 'antibug'],
         'STATUS': ['status', 'autostatus', 'autoreacts', 'autoread', 'ghostmode'],
-        'KHATARNAK': ['hack', 'repo', 'spam', 'smsbomb', 'callbomb', 'crash', 'freeze', 'lag', 'bug', 'group-bug', 'mass-bug', 'vcard-bug', 'ios-crash', 'andro-crash', 'locspam', 'vcardspam', 'buttonspam', 'pollspam', 'contactspam', 'bug_powerful', 'system-lag', 'ui-freeze', 'wa-crash', 'data-drain', 'memory-bug', 'infinity-bug', 'ghost-crash', 'nuke-bug', 'dark-payload', 'void-crash']
+        'KHATARNAK': ['hack', 'repo', 'spam', 'smsbomb', 'callbomb', 'crash', 'freeze', 'lag', 'bug', 'group-bug', 'mass-bug', 'vcard-bug', 'ios-crash', 'andro-crash', 'number-bug', 'locspam', 'vcardspam', 'buttonspam', 'pollspam', 'contactspam', 'bug_powerful', 'system-lag', 'ui-freeze', 'wa-crash', 'data-drain', 'memory-bug', 'infinity-bug', 'ghost-crash', 'nuke-bug', 'dark-payload', 'void-crash']
     };
 
     let allMenuText = `╭━━━〔 ${botName} 〕━━━┈⊷\n`;
