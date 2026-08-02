@@ -1,9 +1,15 @@
 // autoreact.js - Auto React Command for MD Bot
 
-// In your main bot file or command handler, add these imports/variables
-const autoReactSessions = new Map(); // Store per-group auto-react settings
-
-async function autoreactsCommand(sock, from, msg, isAdmin, session, args) {
+/**
+ * Main command function for managing auto-reaction settings.
+ * @param {Object} sock - Baileys socket instance
+ * @param {string} from - Remote JID
+ * @param {Object} msg - The message object
+ * @param {boolean} isAdmin - Whether the sender is an admin
+ * @param {Object} session - The session object for the current chat
+ * @param {Array} args - Command arguments
+ */
+async function autoreactsCommand(sock, from, msg, isAdmin, session, args = []) {
     // Check if user is admin/owner
     if (!isAdmin) {
         return await sock.sendMessage(from, { 
@@ -15,7 +21,8 @@ async function autoreactsCommand(sock, from, msg, isAdmin, session, args) {
     if (!session.autoReact) {
         session.autoReact = {
             enabled: false,
-            emojis: ['✅','❤️','👏','🔥','🎉'💕'💯'😡']
+            defaultEmoji: '❤️',
+            emojis: ['✅', '❤️', '👏', '🔥', '🎉', '💕', '💯', '😡'],
             reactions: {}
         };
     }
@@ -51,7 +58,7 @@ async function autoreactsCommand(sock, from, msg, isAdmin, session, args) {
         }, { quoted: msg });
     }
     else if (action === 'list') {
-        const reactions = session.autoReact.reactions;
+        const reactions = session.autoReact.reactions || {};
         if (Object.keys(reactions).length === 0) {
             return await sock.sendMessage(from, { 
                 text: "📝 No custom reactions set." 
@@ -70,7 +77,7 @@ async function autoreactsCommand(sock, from, msg, isAdmin, session, args) {
                 text: "❌ Usage: .autoreact remove [keyword]" 
             }, { quoted: msg });
         }
-        if (session.autoReact.reactions[keyword]) {
+        if (session.autoReact.reactions && session.autoReact.reactions[keyword]) {
             delete session.autoReact.reactions[keyword];
             await sock.sendMessage(from, { 
                 text: `✅ Removed reaction for: "${keyword}"` 
@@ -103,7 +110,28 @@ async function autoreactsCommand(sock, from, msg, isAdmin, session, args) {
     }
 }
 
-// Add this to your message handler to process auto-reactions
+/**
+ * Helper to extract text from various Baileys message types.
+ */
+function getMessageText(msg) {
+    if (!msg.message) return '';
+    const type = Object.keys(msg.message)[0];
+    if (type === 'conversation') return msg.message.conversation;
+    if (type === 'extendedTextMessage') return msg.message.extendedTextMessage.text;
+    if (type === 'imageMessage') return msg.message.imageMessage.caption;
+    if (type === 'videoMessage') return msg.message.videoMessage.caption;
+    if (type === 'documentMessage') return msg.message.documentMessage.caption;
+    // Handle ephemeral and view-once messages
+    if (type === 'ephemeralMessage') return getMessageText({ message: msg.message.ephemeralMessage.message });
+    if (type === 'viewOnceMessage') return getMessageText({ message: msg.message.viewOnceMessage.message });
+    if (type === 'viewOnceMessageV2') return getMessageText({ message: msg.message.viewOnceMessageV2.message });
+    return '';
+}
+
+/**
+ * Message handler to process auto-reactions.
+ * Add this to your main message listener.
+ */
 async function handleAutoReact(sock, from, msg, session) {
     if (!session || !session.autoReact) return;
     
@@ -111,20 +139,18 @@ async function handleAutoReact(sock, from, msg, session) {
     const isEnabled = typeof session.autoReact === 'object' ? session.autoReact.enabled : session.autoReact;
     if (!isEnabled) return;
     
-    const messageText = msg.message?.conversation || 
-                       msg.message?.extendedTextMessage?.text || 
-                       msg.message?.imageMessage?.caption || 
-                       '';
-    
+    const messageText = getMessageText(msg);
     if (!messageText) return;
 
     let reaction = session.autoReact.defaultEmoji || '❤️';
     
     // Check for custom reactions
     const reactions = session.autoReact.reactions || {};
+    let foundCustom = false;
     for (const [keyword, emoji] of Object.entries(reactions)) {
-        if (messageText.toLowerCase().includes(keyword)) {
+        if (messageText.toLowerCase().includes(keyword.toLowerCase())) {
             reaction = emoji;
+            foundCustom = true;
             break;
         }
     }
@@ -139,5 +165,6 @@ async function handleAutoReact(sock, from, msg, session) {
     }
 }
 
+// Export the command and the handler
 autoreactsCommand.handleAutoReact = handleAutoReact;
 module.exports = autoreactsCommand;
