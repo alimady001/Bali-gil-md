@@ -1,7 +1,7 @@
 
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&height=230&color=0:6a0dad,100:ab47bc&text=BALI%20GIL&fontColor=ffffff&fontSize=85&fontAlignY=40&animation=twinkling&desc=Powered%20By%20ITACHI%20UCHIHA">
+<img src="https://capsule-render.vercel.app/api?type=waving&height=230&color=0:6a0dad,100:ab47bc&text=BALI%20GIL&fontColor=ffffff&fontSize=85&fontAlignY=40&animation=twinkling&desc=Powered%20By%20I[...]
 
 <div style="
   margin-top: -60px;
@@ -125,7 +125,7 @@ Default password: `ITACHI-UCHIA`
 - Improved error handling and logging
 - Better compatibility with different Baileys versions
 
-### v4.0.1
+### v3.0.0
 - Initial stable release
 - 400+ commands
 - Web dashboard
@@ -155,3 +155,4 @@ MIT
 ⭐ Star this repo if you like it!
 
 </div>
+
