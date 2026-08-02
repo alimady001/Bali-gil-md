@@ -25,7 +25,7 @@
 
 <div align="center">
 
-# 🌌 BALI GIL bot v3.1.0
+# 🌌 BALI GIL bot v4.0.1
 **"Even the strongest of opponents always has a weakness."**
 
 [![Status](https://img.shields.io/badge/Status-Active-brightgreen)](https://github.com/itachi-uchia34)
@@ -44,9 +44,9 @@
 
 Ultimate WhatsApp Automation Tool with 400+ Commands
 
-## 📌 Version 3.1.0 - Stable Release (Bug Fixes & Improvements)
+## 📌 Version 4.0.1 - Stable Release (Bug Fixes & Improvements)
 
-### ✨ What's New in v3.1.0:
+### ✨ What's New in v4.0.1:
 - 🔧 **Fixed Critical Command Issues** - All commands now work properly
 - 🎯 **Parameter Normalization** - Consistent parameter handling across all commands
 - 🔌 **Multiple API Fallbacks** - Song & Video download now have 5 APIs instead of 3
@@ -118,14 +118,14 @@ Default password: `ITACHI-UCHIA`
 
 ## Changelog
 
-### v3.1.0 (Current)
+### v4.0.1 (Current)
 - Fixed critical command export format issues
 - Normalized parameter naming across all commands
 - Added fallback APIs for media downloads
 - Improved error handling and logging
 - Better compatibility with different Baileys versions
 
-### v3.0.0
+### v4.0.1
 - Initial stable release
 - 400+ commands
 - Web dashboard
